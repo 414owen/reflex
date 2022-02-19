@@ -10,7 +10,7 @@ import Control.Monad.IO.Class
 import Data.Text (Text)
 import Reflex.Dom.Core
 
-import Clock.Time
+import Clock.Time (seconds, minutes, hours)
 import Clock.Util
 
 type ClientSideM t m =
@@ -33,11 +33,12 @@ hand rotation width len = svgElDynAttr "line" atts $ pure ()
     atts = ffor rotation $ \rot -> 
          "stroke-width" =: width
       <> "stroke" =: "black"
-      <> "y2" =: tshow (50 - len)
       <> rotate rot
       <> "stroke" =: "black"
-      <> vertical
+      <> "x1" =: "50"
+      <> "x2" =: "50"
       <> "y1" =: "50"
+      <> "y2" =: tshow (50 - len)
 
 toRotation :: Functor f => Float -> f Float -> f Float
 toRotation n = fmap ((/ n) . (* 360))

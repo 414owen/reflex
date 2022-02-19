@@ -14,7 +14,8 @@ mark len width minute = do
     ( "stroke" =: "black"
     <> "stroke-width" =: width
     <> rotate (minute * 360 `div` 60)
-    <> vertical
+    <> "x1" =: "50"
+    <> "x2" =: "50"
     <> "y1" =: "3"
     <> "y2" =: len
     ) $ pure ()

@@ -7,10 +7,10 @@ import Obelisk.Route
 import Reflex.Dom.Core
 import Common.Route
 
-import Clock
+import Talk
 
 frontend :: Frontend (R FrontendRoute)
 frontend = Frontend
   { _frontend_head = el "title" $ text "Obelisk Minimal Example"
-  , _frontend_body = clock
+  , _frontend_body = talk
   }
