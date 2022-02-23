@@ -1,13 +1,20 @@
 {-# LANGUAGE AllowAmbiguousTypes #-}
 {-# LANGUAGE ConstraintKinds #-}
+{-# LANGUAGE LambdaCase #-}
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE RecursiveDo #-}
 {-# LANGUAGE ScopedTypeVariables #-}
+{-# LANGUAGE TupleSections #-}
 
 module Flow (flow) where
 
+import Control.Category ((>>>))
+import Control.Monad
 import Control.Monad.Fix
 
+import Data.Functor
+import Data.Map (Map)
+import qualified Data.Map as M
 import Data.Text (Text)
 import Reflex.Dom.Core
 
@@ -21,7 +28,6 @@ type FlowM t m =
   )
 
 
-
 down :: FlowM t m => m ()
 down = do
   -- Button to click
@@ -30,7 +36,6 @@ down = do
   n :: Dynamic t Int <- count click
   -- Display click count
   el "div" $ dynText $ fmap tshow n
-
 
 
 up :: FlowM t m => m ()
@@ -61,11 +66,36 @@ mutual = mdo
   pure ()
 
 
+data Player = X | O
+
+boolToPlayer :: Bool -> Player
+boolToPlayer True = X
+boolToPlayer False = O
+
+
+game :: FlowM t m => m ()
+game = mdo
+  turnDyn <- ffor (toggle False click) $ fmap boolToPlayer
+  state <- foldDyn
+    (\(turn, (x, y)) m -> M.insert (x, y) turn m)
+    mempty $ attachPromptlyDyn turnDyn click
+  click <- fmap leftmost $ forM [1..3] $ \x -> do
+    el "div" $ 
+      fmap leftmost $ forM [1..3] $ \y -> do
+        clickEv <- buttonDynText $ ffor state $ \s -> case M.lookup (x, y) s of
+          Nothing -> "⠀"
+          Just X -> "X"
+          Just O -> "O"
+        pure $ clickEv $> (x, y)
+  pure ()
+
+
 flow :: FlowM t m => m ()
 flow = do
   -- down
   -- up
   -- mutual
+  -- game
   pure ()
 
   -- The monad renders elements top-to-bottom

@@ -9,7 +9,7 @@ import Reflex.Dom.Core
 import Clock.Util
 
 mark :: DomBuilder t m => Text -> Text -> Int -> m ()
-mark len width minute = do
+mark len width minute =
   elAttr "line"
     ( "stroke" =: "black"
     <> "stroke-width" =: width

@@ -12,7 +12,7 @@ clock ::
   , Prerender t m
   ) => m ()
 clock = elAttr "svg" ("viewbox" =: "0 0 100 100" <> "width" =: "400px") $ do
-  -- frame
+  frame
   -- marks
   -- hands
   pure ()

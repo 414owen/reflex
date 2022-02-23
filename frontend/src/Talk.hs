@@ -18,4 +18,4 @@ talk ::
   ) => m ()
 talk = do
   clock
-  -- el "div" $ flow
+  el "div" $ flow
