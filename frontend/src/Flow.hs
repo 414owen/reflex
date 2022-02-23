@@ -8,7 +8,6 @@
 
 module Flow (flow) where
 
-import Control.Category ((>>>))
 import Control.Monad
 import Control.Monad.Fix
 
@@ -20,7 +19,7 @@ import Reflex.Dom.Core
 
 import Clock.Util
 
-type FlowM t m = 
+type FlowM t m =
   ( DomBuilder t m
   , MonadHold t m
   , MonadFix m
@@ -31,7 +30,7 @@ type FlowM t m =
 down :: FlowM t m => m ()
 down = do
   -- Button to click
-  click <- button "Increment number below"
+  click :: Event t () <- button "Increment number below"
   -- Map click even to count (Dynamic t Int)
   n :: Dynamic t Int <- count click
   -- Display click count
@@ -76,11 +75,12 @@ boolToPlayer False = O
 game :: FlowM t m => m ()
 game = mdo
   turnDyn <- ffor (toggle False click) $ fmap boolToPlayer
-  state <- foldDyn
-    (\(turn, (x, y)) m -> M.insert (x, y) turn m)
-    mempty $ attachPromptlyDyn turnDyn click
+  state :: Dynamic t (Map (Int, Int) Player) <-
+      foldDyn
+      (\(turn, (x, y)) m -> M.insert (x, y) turn m)
+      mempty $ attachPromptlyDyn turnDyn click
   click <- fmap leftmost $ forM [1..3] $ \x -> do
-    el "div" $ 
+    el "div" $
       fmap leftmost $ forM [1..3] $ \y -> do
         clickEv <- buttonDynText $ ffor state $ \s -> case M.lookup (x, y) s of
           Nothing -> "⠀"
@@ -92,10 +92,10 @@ game = mdo
 
 flow :: FlowM t m => m ()
 flow = do
-  -- down
-  -- up
-  -- mutual
-  -- game
+  down
+  up
+  mutual
+  game
   pure ()
 
   -- The monad renders elements top-to-bottom

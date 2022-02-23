@@ -18,6 +18,15 @@ library
                , time
   exposed-modules:
     Frontend
+  other-modules:
+    Clock
+    Clock.Frame
+    Clock.Hands
+    Clock.Marks
+    Clock.Time
+    Clock.Util
+    Flow
+    Talk
   ghc-options: -Wall -Wredundant-constraints -Wincomplete-uni-patterns -Wincomplete-record-updates -O -fno-show-valid-hole-fits
 
 executable frontend

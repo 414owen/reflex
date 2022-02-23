@@ -11,6 +11,7 @@ patat:
 * Asking questions
   * Interrupt me
   * Use the #talk-questions discord channel
+  * Discord link: https://discord.gg/GGQEdghfzR
 
 ## Structure of talk
 
