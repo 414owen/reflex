@@ -8,7 +8,6 @@ module Clock.Hands (hands) where
 import Control.Monad
 import Control.Monad.Fix
 import Control.Monad.IO.Class
-import Data.Functor
 import Data.Text (Text)
 import Reflex.Dom.Core
 
