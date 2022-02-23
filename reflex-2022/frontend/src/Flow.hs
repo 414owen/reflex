@@ -97,19 +97,3 @@ flow = do
   mutual
   game
   pure ()
-
-  -- The monad renders elements top-to-bottom
-
-  {-
-  el "div" $ text "one"
-  el "div" $ text "two"
-  el "div" $ text "three"
-  -}
-
-
-  -- Becomes
-  {-
-  <div>one</div>
-  <div>two</div>
-  <div>three</div>
-  -}
